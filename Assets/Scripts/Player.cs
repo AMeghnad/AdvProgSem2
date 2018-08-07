@@ -4,39 +4,39 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    public BoxCollider hitbox;
-    public int damage = 50;
-    // attribute
-    [Tooltip("Duration hitbox is enabled(in seconds)")]
-    public float hitDuration = 1f; // duration hitbox is enabled
+    public GameObject weapon;
+
+    public float speed = 5f;
+    public float jumpSpeed = 10f;
+    public float gravity = 20f;
+
+    public CharacterController controller;
+    public float inputH, inputV;
+
+    private Vector3 moveDirection = Vector3.zero;
 
     // Update is called once per frame
     void Update()
     {
+        inputH = Input.GetAxis("Horizontal");
+        inputV = Input.GetAxis("Vertical");
         // Check if space is pressed
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetMouseButtonDown(0))
         {
-            // Run hit sequence
-            StartCoroutine(Hit());
+            weapon.SetActive(true);
         }
-    }
 
-    IEnumerator Hit()
-    {
-        hitbox.enabled = true;
-        yield return new WaitForSeconds(hitDuration);
-        hitbox.enabled = false;
-    }
-
-    // OnTriggerEnter is called when the Collider other enters the trigger
-    private void OnTriggerEnter(Collider other)
-    {
-        // detect enemy
-        Enemy enemy = GetComponent<Enemy>();
-        if (enemy != null)
+        if (controller.isGrounded)
         {
-            // deal damage
-            enemy.DealDamage(damage);
+            moveDirection = new Vector3(inputH, 0, inputV);
+            moveDirection = transform.TransformDirection(moveDirection);
+            moveDirection *= speed;
+            if (Input.GetButton("Jump"))
+            {
+                moveDirection.y = jumpSpeed;
+            }
         }
+        moveDirection.y -= gravity * Time.deltaTime;
+        controller.Move(moveDirection * Time.deltaTime);
     }
 }
