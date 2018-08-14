@@ -308,7 +308,7 @@ GameObject:
   m_Layer: 0
   m_Name: Waypoint (3)
   m_TagString: Untagged
-  m_Icon: {fileID: 3443629218296621865, guid: 0000000000000000d000000000000000, type: 0}
+  m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -325,6 +325,12 @@ Transform:
   m_Father: {fileID: 62044574}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &346023649 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 114470240016941358, guid: 088606642abdba94b9aeb3da7b277086,
+    type: 2}
+  m_PrefabInternal: {fileID: 1913674715}
+  m_Script: {fileID: 11500000, guid: e7cf2f40df5745a46b5cb653cd4b695c, type: 3}
 --- !u!43 &1090582411
 Mesh:
   m_ObjectHideFlags: 0
@@ -1032,7 +1038,7 @@ GameObject:
   m_Layer: 0
   m_Name: Waypoint (2)
   m_TagString: Untagged
-  m_Icon: {fileID: 3443629218296621865, guid: 0000000000000000d000000000000000, type: 0}
+  m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -1049,6 +1055,30 @@ Transform:
   m_Father: {fileID: 62044574}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1323657758 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1154671701069836, guid: 088606642abdba94b9aeb3da7b277086,
+    type: 2}
+  m_PrefabInternal: {fileID: 1913674715}
+--- !u!114 &1323657759
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1323657758}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7b1320c411ec8b44fb3196ae19c68e59, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  controller: {fileID: 1323657760}
+  cam: {fileID: 346023649}
+--- !u!114 &1323657760 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 114319814316778934, guid: 088606642abdba94b9aeb3da7b277086,
+    type: 2}
+  m_PrefabInternal: {fileID: 1913674715}
+  m_Script: {fileID: 11500000, guid: 928142f1cff2fee4a877da5c3fc2f62b, type: 3}
 --- !u!1 &1382148302
 GameObject:
   m_ObjectHideFlags: 0
@@ -1181,7 +1211,7 @@ GameObject:
   m_Layer: 0
   m_Name: Waypoint (1)
   m_TagString: Untagged
-  m_Icon: {fileID: 3443629218296621865, guid: 0000000000000000d000000000000000, type: 0}
+  m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -1706,6 +1736,24 @@ Prefab:
         type: 2}
       propertyPath: m_Enabled
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114470240016941358, guid: 088606642abdba94b9aeb3da7b277086,
+        type: 2}
+      propertyPath: cameraCollision
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114470240016941358, guid: 088606642abdba94b9aeb3da7b277086,
+        type: 2}
+      propertyPath: ignoreLayers.m_Bits
+      value: 512
+      objectReference: {fileID: 0}
+    - target: {fileID: 1154671701069836, guid: 088606642abdba94b9aeb3da7b277086, type: 2}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 1644588017174738, guid: 088606642abdba94b9aeb3da7b277086, type: 2}
+      propertyPath: m_Layer
+      value: 9
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 088606642abdba94b9aeb3da7b277086, type: 2}
