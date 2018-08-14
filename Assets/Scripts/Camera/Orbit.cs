@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Orbit : MonoBehaviour
 {
+    public bool hideCursor = false;
     public Transform target;
     public Vector3 offset = new Vector3(0, 1f, 0);
     public float distance = 5.0f;
@@ -18,6 +19,7 @@ public class Orbit : MonoBehaviour
 
     [Header("Collision")]
     public bool cameraCollision = false;
+    public float camRadius = 0.3f;
     public float rayDistance = 1000f;
     public LayerMask ignoreLayers;
 
@@ -33,10 +35,23 @@ public class Orbit : MonoBehaviour
         // Ray distance is as long as the magnitude of offset
         rayDistance = originalOffset.magnitude;
 
-        transform.SetParent(null);
+        if (hideCursor)
+        {
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
+        }
+
         Vector3 angles = transform.eulerAngles;
         x = angles.y;
         y = angles.x;
+
+        transform.SetParent(null);
+    }
+
+    void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.cyan;
+        Gizmos.DrawWireSphere(transform.position, camRadius);
     }
 
     public void Look(float mouseX, float mouseY)
@@ -59,7 +74,7 @@ public class Orbit : MonoBehaviour
             {
                 Ray camRay = new Ray(target.position, -transform.forward);
                 RaycastHit hit;
-                if (Physics.Raycast(camRay, out hit, rayDistance, ~ignoreLayers, QueryTriggerInteraction.Ignore))
+                if (Physics.SphereCast(camRay, camRadius, out hit, rayDistance, ~ignoreLayers, QueryTriggerInteraction.Ignore))
                 {
                     distance = hit.distance;
                     //return
