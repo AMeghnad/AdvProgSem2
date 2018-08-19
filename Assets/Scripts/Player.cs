@@ -21,7 +21,7 @@ public class Player : MonoBehaviour
         inputH = Input.GetAxis("Horizontal");
         inputV = Input.GetAxis("Vertical");
 
-        // Check if space is pressed
+        // Check if attackButton is pressed
         if (Input.GetMouseButtonDown(0))
         {
             weapon.SetActive(true);
