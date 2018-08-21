@@ -5,17 +5,18 @@ using UnityEngine.AI;
 
 public class Enemy : MonoBehaviour
 {
+    public State currentState = State.Patrol;
     public NavMeshAgent agent;
     public Transform target;
     public Transform waypointParent;
     public float distanceToWaypoint;
-    public bool loop = false;
+    public float detectionRadius = 5f;
+    public bool loop;
 
-    private bool pingPong = false;
     private Transform[] waypoints;
+    private bool pingPong;
     private int currentIndex = 1;
     private int health = 100;
-
 
     public int Health
     {
@@ -25,6 +26,13 @@ public class Enemy : MonoBehaviour
         }
     }
 
+    // Implement this OnDrawGizmosSelected if you want to draw gizmos only if the object is selected
+    void OnDrawGizmos()
+    {
+        Gizmos.color = Color.blue;
+        Gizmos.DrawWireSphere(transform.position, detectionRadius);
+    }
+
     void Start()
     {
         waypoints = waypointParent.GetComponentsInChildren<Transform>();
@@ -32,67 +40,35 @@ public class Enemy : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // If a target is set
-        if (target)
+        switch (currentState)
         {
-            // Update the AI's target position
-            agent.SetDestination(target.position);
-        }
-        else
-        {
-            if (currentIndex >= waypoints.Length)
-            {
-                if (loop)
-                {
-                    // Reset back to "first" waypoint
-                    currentIndex = 1;
-                }
-                else
-                {
-                    // Cap the index if it's greater
-                    currentIndex = waypoints.Length - 1;
-                    // Reverse it!
-                    pingPong = true;
-                }
-            }
-            if (currentIndex <= 0)
-            {
-                if (loop)
-                {
-                    // Reset back to "first" waypoint
-                    currentIndex = waypoints.Length - 1;
-                }
-                else
-                {
-                    // Cap the index if it's greater
-                    currentIndex = 1;
-                    // Reverse it!
-                    pingPong = false;
-                }
-            }
-
-            Transform point = waypoints[currentIndex];
-
-            // set distance from gameobject to waypoint
-            float distance = Vector3.Distance(transform.position, point.position);
-            // if within vicinity of waypoint
-            if (distance <= distanceToWaypoint)
-            {
-                if (pingPong)
-                {
-                    // Move to previous waypoint
-                    currentIndex--;
-                }
-                else
-                {
-                    // Move to next waypoint
-                    currentIndex++;
-                }
-            }
-
-            agent.SetDestination(point.position);
+            case State.Patrol:
+                Patrol();
+                break;
+            case State.Seek:
+                Seek();
+                break;
+            default:
+                break;
         }
     }
+
+    void FixedUpdate()
+    {
+        Collider[] hits = Physics.OverlapSphere(transform.position, detectionRadius);
+        foreach (var hit in hits)
+        {
+            Player player = hit.GetComponent<Player>();
+            if (player)
+            {
+                target = player.transform;
+                return;
+            }
+        }
+
+        target = null;
+    }
+
 
     public void DealDamage(int damage)
     {
@@ -101,5 +77,42 @@ public class Enemy : MonoBehaviour
         {
             Destroy(gameObject);
         }
+    }
+
+    public enum State
+    {
+        Patrol,
+        Seek
+    }
+
+    void Patrol()
+    {
+        if (currentIndex >= waypoints.Length)
+        {
+            // Reset back to "first" waypoint
+            currentIndex = 1;
+        }
+        Transform point = waypoints[currentIndex];
+
+        // Set distance from gameobject to waypoint
+        float distance = Vector3.Distance(transform.position, point.position);
+        if (distance <= distanceToWaypoint)
+        {
+            currentIndex++;
+        }
+        agent.SetDestination(point.position);
+    }
+
+
+    // This callback will be invoked at each frame after the state machines and the animations have been evaluated, but before OnAnimatorIK
+    private void OnAnimatorMove()
+    {
+
+    }
+
+    void Seek()
+    {
+        // Update the AI's target position
+        agent.SetDestination(target.position);
     }
 }

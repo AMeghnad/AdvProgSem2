@@ -308,7 +308,7 @@ GameObject:
   m_Layer: 0
   m_Name: Waypoint (3)
   m_TagString: Untagged
-  m_Icon: {fileID: 0}
+  m_Icon: {fileID: 3306451490063965843, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -920,6 +920,7 @@ GameObject:
   - component: {fileID: 1292628654}
   - component: {fileID: 1292628658}
   - component: {fileID: 1292628659}
+  - component: {fileID: 1292628660}
   m_Layer: 0
   m_Name: Enemy
   m_TagString: Untagged
@@ -991,7 +992,8 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 8.857727, y: 1.5, z: -18}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
+  m_Children:
+  - {fileID: 1945429685}
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1006,10 +1008,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 07ce9cdef4eb3724d91e3ecf3c41dc25, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  currentState: 0
   agent: {fileID: 1292628659}
-  target: {fileID: 0}
+  target: {fileID: 1323657765}
   waypointParent: {fileID: 62044574}
   distanceToWaypoint: 1
+  detectionRadius: 5
   loop: 0
 --- !u!195 &1292628659
 NavMeshAgent:
@@ -1032,6 +1036,31 @@ NavMeshAgent:
   m_BaseOffset: 1
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!114 &1292628660
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1292628653}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b2244a3307f97374bb5be5acbb72f7d4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  viewRadius: 5
+  viewAngle: 120
+  targetMask:
+    serializedVersion: 2
+    m_Bits: 512
+  obstacleMask:
+    serializedVersion: 2
+    m_Bits: 0
+  visibleTargets: []
+  meshResolution: 0.33
+  edgeResolveIterations: 2
+  edgeDstThreshold: 0.5
+  maskCutawayDst: 0
+  viewMeshFilter: {fileID: 1945429688}
 --- !u!1 &1308650302
 GameObject:
   m_ObjectHideFlags: 0
@@ -1043,7 +1072,7 @@ GameObject:
   m_Layer: 0
   m_Name: Waypoint (2)
   m_TagString: Untagged
-  m_Icon: {fileID: 0}
+  m_Icon: {fileID: 3306451490063965843, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -1084,6 +1113,11 @@ MonoBehaviour:
     type: 2}
   m_PrefabInternal: {fileID: 1913674715}
   m_Script: {fileID: 11500000, guid: 928142f1cff2fee4a877da5c3fc2f62b, type: 3}
+--- !u!4 &1323657765 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4687080737431448, guid: 088606642abdba94b9aeb3da7b277086,
+    type: 2}
+  m_PrefabInternal: {fileID: 1913674715}
 --- !u!1 &1382148302
 GameObject:
   m_ObjectHideFlags: 0
@@ -1216,7 +1250,7 @@ GameObject:
   m_Layer: 0
   m_Name: Waypoint (1)
   m_TagString: Untagged
-  m_Icon: {fileID: 0}
+  m_Icon: {fileID: 3306451490063965843, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -1745,7 +1779,7 @@ Prefab:
     - target: {fileID: 114470240016941358, guid: 088606642abdba94b9aeb3da7b277086,
         type: 2}
       propertyPath: cameraCollision
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 114470240016941358, guid: 088606642abdba94b9aeb3da7b277086,
         type: 2}
@@ -1769,9 +1803,87 @@ Prefab:
       propertyPath: m_LocalPosition.z
       value: -7
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    - target: {fileID: 114470240016941358, guid: 088606642abdba94b9aeb3da7b277086,
+        type: 2}
+      propertyPath: offset.y
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 136022036053992902, guid: 088606642abdba94b9aeb3da7b277086, type: 2}
   m_SourcePrefab: {fileID: 100100000, guid: 088606642abdba94b9aeb3da7b277086, type: 2}
   m_IsPrefabAsset: 0
+--- !u!1 &1945429684
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1945429685}
+  - component: {fileID: 1945429688}
+  - component: {fileID: 1945429687}
+  m_Layer: 0
+  m_Name: Plane
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1945429685
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1945429684}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1292628657}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!23 &1945429687
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1945429684}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RenderingLayerMask: 4294967295
+  m_Materials:
+  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 0
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+--- !u!33 &1945429688
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1945429684}
+  m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!1 &2030442994
 GameObject:
   m_ObjectHideFlags: 0
