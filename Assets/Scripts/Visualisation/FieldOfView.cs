@@ -29,6 +29,8 @@ public class FieldOfView : MonoBehaviour
         viewMesh.name = "View Mesh";
         viewMeshFilter.mesh = viewMesh;
 
+        viewMeshFilter.gameObject.SetActive(true);
+
         StartCoroutine("FindTargetsWithDelay", .2f);
     }
 

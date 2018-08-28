@@ -8,30 +8,26 @@ public class Melee : MonoBehaviour
     public int damage = 50;
 
     // This function is called when the object becomes enabled and active
-    void OnEnable()
+    private void OnEnable()
     {
-        // Start timer
         StartCoroutine(Delay());
-    }
-
-    // OnTriggerEnter is called when the Collider other enters the trigger
-    void OnTriggerEnter(Collider other)
-    {
-        // detect enemy
-        Enemy enemy = other.GetComponent<Enemy>();
-        if (enemy)
-        {
-            // deal damage
-            enemy.DealDamage(damage);
-            // disable the weapon
-            gameObject.SetActive(false);
-        }
     }
 
     IEnumerator Delay()
     {
         yield return new WaitForSeconds(duration);
+        // Disables the game object after duration
         gameObject.SetActive(false);
     }
 
+    public void OnTriggerEnter(Collider other)
+    {
+        Enemy enemy = other.GetComponent<Enemy>();
+        if (enemy)
+        {
+            // enemy.Health();
+            enemy.DealDamage(damage);
+            gameObject.SetActive(false);
+        }
+    }
 }

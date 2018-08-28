@@ -6,8 +6,7 @@ public class PlayerInput : MonoBehaviour
 {
     public Player controller;
     public Orbit cam;
-    float inputH, inputV;
-
+    
     // Update is called once per frame
     void Update()
     {
