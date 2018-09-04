@@ -15,12 +15,8 @@ public class Player : MonoBehaviour
 
     public CharacterController controller;
 
-    // Update is called once per frame
-    void Update()
+    public void Move(float inputH, float inputV, bool isJumping)
     {
-        float inputH = Input.GetAxis("Horizontal");
-        float inputV = Input.GetAxis("Vertical");
-
         if (controller.isGrounded)
         {
             // Rotate the player in the direction of camera
@@ -36,6 +32,10 @@ public class Player : MonoBehaviour
                 moveDirection.y = jumpSpeed;
             }
         }
+    }
+    // Update is called once per frame
+    void Update()
+    {
 
         moveDirection.y -= gravity * Time.deltaTime;
         controller.Move(moveDirection * Time.deltaTime);
