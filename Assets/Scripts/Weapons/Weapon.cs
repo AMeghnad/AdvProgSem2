@@ -2,25 +2,33 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Melee : MonoBehaviour
+public class Weapon : MonoBehaviour
 {
-    public float duration = 1f;
-    public int damage = 50;
+    public float range;
+    public float duration;
+    public int damage;
+
+    protected virtual void Start()
+    {
+        range = 5f;
+        damage = 50;
+        duration = 1f;
+    }
 
     // This function is called when the object becomes enabled and active
-    private void OnEnable()
+    protected virtual void OnEnable()
     {
         StartCoroutine(Delay());
     }
 
-    IEnumerator Delay()
+    protected IEnumerator Delay()
     {
         yield return new WaitForSeconds(duration);
         // Disables the game object after duration
         gameObject.SetActive(false);
     }
 
-    public void OnTriggerEnter(Collider other)
+    protected virtual void OnTriggerEnter(Collider other)
     {
         Enemy enemy = other.GetComponent<Enemy>();
         if (enemy)
